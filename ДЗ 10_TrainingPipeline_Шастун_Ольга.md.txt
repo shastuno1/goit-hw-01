@@ -91,6 +91,24 @@ Notification to team
 - Перед просуванням моделі далі обов'язково перевіряються встановлені quality gates.
 - Жодна нова модель не переходить у production автоматично без проходження ручного approval.
 
+## 7. Notification messages
+
+### Варіант 1: Повідомлення при успішному виконанні (Success Notification)
+
+```text
+✅ Training pipeline completed successfully
+
+• Pipeline Name: Automated Training Pipeline (churn_prediction_v3)
+• Status: SUCCESS
+• Source: GitLab CI
+• Commit / Branch: a1b2c3d / main
+• Key Metrics: F1-score = 0.83, Recall = 0.79, Precision = 0.86
+• Status in Registry: candidate registered
+• Details & Logs: MLflow Run #128 | AWS Step Functions Execution #step-4920
+• Next Action: Review quality gates and evaluate candidate model for release approval
+• Responsible / Owner: Tech Lead / AI PM
+
+
 ## 8. Короткий висновок
 
 Автоматизований training pipeline є фундаментальним елементом зрілої MLOps-інфраструктури, оскільки він забезпечує відтворюваність, безперервність та системний контроль процесу навчання ML-моделей. У цій архітектурі GitLab CI виступає гнучким шаром-тригером (trigger layer), який передає Git-контекст та ініціює виконання зовнішніх процесів без прямого втручання в інфраструктуру. О оркестрацію безпосереднього виконання задач у хмарі бере на себе AWS Step Functions, що забезпечує надійне й прозоре управління послідовністю кроків. Важливо підкреслити, що технічно успішний запуск pipeline (technical success) свідчить лише про відсутність збоїв у виконанні коду, але не гарантує готовність моделі до експлуатації. Для досягнення справжньої production-readiness модель повинна пройти суворі quality gates, перевірку ML- та бізнес-метрики, а також отримати ручний approval від AI PM та Tech Lead. Такий багаторівневий підхід дозволяє мінімізувати інфраструктурні й бізнес-ризики та гарантує високу якість рішень у продакшені.
