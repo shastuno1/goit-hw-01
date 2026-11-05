@@ -91,22 +91,6 @@ Notification to team
 - Перед просуванням моделі далі обов'язково перевіряються встановлені quality gates.
 - Жодна нова модель не переходить у production автоматично без проходження ручного approval.
 
-## 7. Notification messages
-
-### Варіант 1: Повідомлення при успішному виконанні (Success Notification)
-
-```text
-✅ Training pipeline completed successfully
-
-• Pipeline Name: Automated Training Pipeline (churn_prediction_v3)
-• Status: SUCCESS
-• Source: GitLab CI
-• Commit / Branch: a1b2c3d / main
-• Key Metrics: F1-score = 0.83, Recall = 0.79, Precision = 0.86
-• Status in Registry: candidate registered
-• Details & Logs: MLflow Run #128 | AWS Step Functions Execution #step-4920
-• Next Action: Review quality gates and evaluate candidate model for release approval
-• Responsible / Owner: Tech Lead / AI PM
 
 
 ## 8. Короткий висновок
@@ -115,3 +99,33 @@ Notification to team
 
 
 
+## 7. Notification messages
+
+Система сповіщень надсилає автоматичні повідомлення в командний Slack-канал `#mlops-alerts` після завершення виконання пайплайну. Повідомлення містять повний контекст, щоб команда могла швидко зрозуміти статус, знайти необхідні деталі в логах та виконати наступну цільову дію.
+
+### 1. Повідомлення при успішному виконанні (Success Notification)
+
+```text
+✅ Training pipeline completed successfully
+• Pipeline Name: Automated Training Pipeline (churn_prediction_v3)
+• Status: SUCCESS
+• Source: GitLab CI
+• Commit / Branch: a1b2c3d / main
+• Key Metrics: F1-score = 0.83, Recall = 0.79, Precision = 0.86
+• Status in Registry: candidate registered
+• Details & Logs: MLflow Run #128 | AWS Step Functions Execution #step-4920
+• Next Action: Tech Lead reviews quality gates before release decision
+• Responsible / Owner: Tech Lead / AI PM
+
+### 2. Повідомлення при помилці (Failure Notification)
+❌ Training pipeline failed
+• Pipeline Name: Automated Training Pipeline (churn_prediction_v3)
+• Status: FAILED
+• Source: GitLab CI
+• Commit / Branch: a1b2c3d / main
+• Failed Step: DataValidation
+• Reason: Missing required column customer_age
+• Key Metrics: N/A (pipeline stopped at validation step)
+• Details & Logs: Step Functions execution logs / GitLab job logs #8821
+• Next Action: Data Engineer checks dataset schema and restarts pipeline after fix
+• Responsible / Owner: Data Engineer
